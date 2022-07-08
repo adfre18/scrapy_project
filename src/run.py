@@ -25,8 +25,12 @@ class DatabaseConn:
         self.create_database()
 
     def connect(self):
-        db_string = 'postgresql://{}:{}@{}:{}/{}'.format(self.db_user, self.db_pass, self.db_host, self.db_port, self.db_name)
-        self.db = create_engine(db_string, isolation_level="AUTOCOMMIT")
+        while True:
+            print("Trying to connect to database")
+            db_string = 'postgresql://{}:{}@{}:{}/{}'.format(self.db_user, self.db_pass, self.db_host, self.db_port, self.db_name)
+            self.db = create_engine(db_string, isolation_level="AUTOCOMMIT")
+            if self.db is not None:
+                break
 
     def create_database(self):
         # Preparing query to create a database
